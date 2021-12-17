@@ -4,7 +4,7 @@ require('headers.php');
 require('functions.php');
 
 try {
-    $db = createDbConnection();
+    $db = openDB();
     SelectAsJson($db, 'SELECT T.title_type, COUNT(*)
     FROM Titles AS T
     GROUP BY T.title_type

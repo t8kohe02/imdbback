@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Credentials');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, PATCH, HEAD');
 header('Content-Type: application/json');
 header('Access-Control-Max-Age: 3600');

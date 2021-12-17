@@ -1,21 +1,23 @@
 <?php
-require('headers.php');
-require('functions.php');
+require_once('headers.php');
+require_once('functions.php');
 
-$search = $_GET['search'];
-$search = filter_var($search, FILTER_SANITIZE_STRING);
-$db = createDbConnection();
+$input = json_decode(file_get_contents('php://input'));
 
-$sql = "SELECT DISTINCT primary_title, genre, start_year FROM titles INNER JOIN title_genres   
-ON titles.title_id = title_genres.title_id
-WHERE primary_title LIKE '%$search%'
-LIMIT 10";
+$uri = parse_url(filter_input(INPUT_SERVER, 'PATH_INFO'),PHP_URL_PATH);
 
-$prepared = $db->prepare($sql);
-$prepared -> execute();
-
-$results = $prepared->fetchAll(PDO::FETCH_ASSOC);
-
-$results = json_encode($results);
-
-echo $results;
+$parameters = explode('/', $uri);
+$phrase = $parameters[1];
+try {
+    $db = openDB();
+    
+    $sql = "SELECT DISTINCT primary_title, genre, start_year FROM titles INNER JOIN title_genres   
+    ON titles.title_id = title_genres.title_id
+    WHERE primary_title LIKE '%$phrase%'
+    LIMIT 10";
+    selectAsJson($db, $sql);
+   
+}
+catch (PDOException $pdoex) {
+    returnError($pdoex);
+}
