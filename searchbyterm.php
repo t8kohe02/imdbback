@@ -1,13 +1,14 @@
 <?php
 require_once('headers.php');
 require_once('functions.php');
-
+/*hakutermi */
 $input = json_decode(file_get_contents('php://input'));
-
+/*sanitointi */
 $uri = parse_url(filter_input(INPUT_SERVER, 'PATH_INFO'),PHP_URL_PATH);
 
 $parameters = explode('/', $uri);
 $phrase = $parameters[1];
+/*SQL haku tietokantaan */
 try {
     $db = openDB();
     
